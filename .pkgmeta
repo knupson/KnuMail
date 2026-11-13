@@ -1,0 +1,13 @@
+package-as: KnuMail
+
+ignore:
+  - tests
+  - tools
+  - docs
+  - .github
+  - dist
+  - "*.py"
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
