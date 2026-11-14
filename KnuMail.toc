@@ -4,9 +4,12 @@
 ## Notes-esES: Herramientas de correo para WoW Forever.
 ## Notes-esMX: Herramientas de correo para WoW Forever.
 ## IconTexture: Interface\AddOns\KnuMail\media\icono
+## Author: Alejandro Benzoni (KnuPwns)
 ## SavedVariables: KnuMailDB
 ## Version: 0.1.0
 ## X-License: MIT
+## X-Website: https://knunet.com
+## X-Category: Mail
 
 Locales.lua
 Core.lua

@@ -2,14 +2,14 @@
 
 Buzón simple y seguro para **World of Warcraft: Forever** (1.60.1, `## Interface: 16001`).
 
-**Estado:** diseño aprobado el 2026-11-13; código todavía no escrito.
+**Estado:** 0.1.0 en prueba en el juego. Funciones del núcleo escritas y con tests (`lua tests/run.lua`).
 
-## Qué va a hacer (v1)
+## Qué hace
 
 - Abrir todo con filtros por tipo de correo, espacios libres reservados y resumen de oro.
-- Saltea los correos con oro de desconocidos (ni alter, ni amigo, ni hermandad).
+- Saltea los correos con oro de desconocidos (ni alter, ni amigo, ni hermandad); con casilla o Shift-clic pide confirmación.
 - Casillas para abrir o devolver sólo lo marcado.
-- Libreta de destinatarios: alters con nombre completo, recientes, amigos y hermandad.
+- Libreta de destinatarios (ícono junto a «Para:»): alters con nombre completo, recientes, amigos y hermandad.
 - Atajos: Shift-clic toma, Ctrl-clic devuelve, Alt-clic adjunta.
 - Tooltip de la bandeja con cada adjunto una sola vez.
 

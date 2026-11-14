@@ -1,0 +1,25 @@
+# Publica en CurseForge y en GitHub Releases al subir una etiqueta (p. ej. v3.3.1).
+# Requiere el secreto CF_API_KEY y "## X-Curse-Project-ID: <número>" en KnuMail.toc.
+# Sin CF_API_KEY el empaquetador omite CurseForge y sólo arma el release de GitHub.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Acciones fijadas por SHA de commit; los secretos sólo llegan al paso que los usa.
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: BigWigsMods/packager@01e8631a69c69d7654c788d152630d5fed9e3812 # v2.7.0
+        env:
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
