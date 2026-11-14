@@ -1,0 +1,8 @@
+test('core_defaults_fill_empty_db', function()
+    KnuMailDB = nil; FAKE.Fire('ADDON_LOADED', 'KnuMail')
+    eq(ns.db.settings.openAll.keepFree, 0); eq(ns.db.settings.openAll.strangerGold, false)
+end)
+test('core_defaults_keep_user_values', function()
+    KnuMailDB = {settings = {openAll = {keepFree = 4}}}; FAKE.Fire('ADDON_LOADED', 'KnuMail')
+    eq(ns.db.settings.openAll.keepFree, 4)
+end)

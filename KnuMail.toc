@@ -1,0 +1,23 @@
+## Interface: 16001
+## Title: |cffecd9bdKNU|r|cffffa82eMail|r
+## Notes: Mail tools for WoW Forever.
+## Notes-esES: Herramientas de correo para WoW Forever.
+## Notes-esMX: Herramientas de correo para WoW Forever.
+## IconTexture: Interface\AddOns\KnuMail\media\icono
+## SavedVariables: KnuMailDB
+## Version: 0.1.0
+## X-License: MIT
+
+Locales.lua
+Core.lua
+Names.lua
+Classify.lua
+Rules.lua
+Inbox.lua
+Selection.lua
+Book.lua
+OpenAll.lua
+SelectUI.lua
+BookUI.lua
+Express.lua
+Tooltip.lua
