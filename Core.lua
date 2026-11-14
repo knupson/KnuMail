@@ -1,4 +1,6 @@
 local _, ns = ...
+local KL = LibStub('KnuLib-1.0')
+ns.KL = KL
 local defaults = {settings = {openAll = {ahSold = true, ahWon = true, ahExpired = true,
     ahCancelled = true, ahOutbid = true, other = true, strangerGold = false, keepFree = 0, goldOnly = false},
     rememberLast = false}, alts = {}, recent = {}}
@@ -18,7 +20,7 @@ end
 frame:SetScript('OnEvent', function(_, event, ...)
     for _, fn in ipairs(handlers[event] or {}) do fn(...) end
 end)
-function ns.Print(message) DEFAULT_CHAT_FRAME:AddMessage('|cffffa82eKnuMail|r: ' .. message) end
+ns.Print = KL:NewPrinter('Mail')
 ns.On('ADDON_LOADED', function(name)
     if name ~= 'KnuMail' then return end
     if type(KnuMailDB) ~= 'table' then KnuMailDB = {} end

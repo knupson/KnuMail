@@ -12,13 +12,24 @@ function test(name, fn)
     local success, err = pcall(fn)
     if not success then failures = failures + 1; print('FALLÓ ' .. name .. ': ' .. tostring(err)) end
 end
-local toc = io.open('KnuMail.toc', 'r')
+local function loadEntry(path)
+    path = path:gsub('\\', '/')
+    if path:match('%.xml$') then
+        local xml = assert(io.open(path, 'r'))
+        local source = xml:read('*a'); xml:close()
+        local folder = path:match('^(.*[/])') or ''
+        for script in source:gmatch('<Script%s+file="([^"]+)"%s*/>') do
+            loadEntry(folder .. script)
+        end
+    else
+        assert(loadfile(path))('KnuMail', ns)
+    end
+end
+local toc = assert(io.open('KnuMail.toc', 'r'))
 if toc then
     for line in toc:lines() do
-        local path = line:match('^%s*([^#%s].-%.lua)%s*$')
-        if path then
-            assert(loadfile(path))('KnuMail', ns)
-        end
+        local path = line:match('^%s*([^#%s].-)%s*$')
+        if path and (path:match('%.lua$') or path:match('%.xml$')) then loadEntry(path) end
     end
     toc:close()
 end

@@ -116,7 +116,7 @@ test('free_slots_fallback_excludes_special_bags',function()
     run(); C_Container.CalculateTotalNumberOfFreeBagSlots=old; eq(#FAKE.calls,0)
 end)
 test('summary_english_reason_texts',function()
-    local old=FAKE.locale; FAKE.locale='enUS'; local en={}; assert(loadfile('Locales.lua'))('KnuMail',en); FAKE.locale=old
+    local old=FAKE.locale; FAKE.locale='enUS'; local en={}; assert(loadfile('Locales/Locales.lua'))('KnuMail',en); FAKE.locale=old
     for _,key in ipairs({'cod','gm','strangerGold','filter','empty','failed'}) do ok(en.L[key]~=key,key) end
 end)
 test('opened_retained_mail_is_not_skipped_empty',function()

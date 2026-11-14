@@ -11,7 +11,8 @@
 ## X-Website: https://knunet.com
 ## X-Category: Mail
 
-Locales.lua
+Libs\KnuLib\KnuLib.xml
+Locales\Locales.lua
 Core.lua
 Names.lua
 Classify.lua

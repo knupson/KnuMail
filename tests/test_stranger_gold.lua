@@ -51,7 +51,7 @@ test('stranger_gold_popup_settings_and_locales',function()
     eq(dialog.timeout,0); eq(dialog.whileDead,true); eq(dialog.hideOnEscape,true)
     for _,locale in ipairs({'enUS','esES'}) do
         local old=FAKE.locale; FAKE.locale=locale; local localized={}
-        assert(loadfile('Locales.lua'))('KnuMail',localized); FAKE.locale=old
+        assert(loadfile('Locales/Locales.lua'))('KnuMail',localized); FAKE.locale=old
         local expected=locale=='enUS' and 'Take %s from %s?' or '¿Cobrar %s de %s?'
         eq(localized.L['Take %s from %s?'],expected)
     end
@@ -94,7 +94,7 @@ test('stranger_gold_native_icon_warns_once_without_blocking',function()
     FAKE.inbox={stranger()}; FAKE.Fire('MAIL_SHOW'); FAKE.shift=true
     InboxFrame_OnModifiedClick(MailItem1Button,1)
     eq(#FAKE.calls,1); eq(#FAKE.messages,1); eq(FAKE.popupShows,0)
-    eq(FAKE.messages[1],'|cffffa82eKnuMail|r: '..string.format(ns.L['you took gold from a stranger (%s).'],'Desconocido Apellido'))
+    eq(FAKE.messages[1],'|cffecd9bdKNU|r|cffffa82eMail|r: '..string.format(ns.L['you took gold from a stranger (%s).'],'Desconocido Apellido'))
     FAKE.Advance(1); eq(FAKE.inbox[1].money,0); eq(#FAKE.messages,1)
 end)
 
@@ -104,7 +104,7 @@ test('stranger_gold_native_icon_uses_absolute_mail_index',function()
     InboxFrame_OnModifiedClick(MailItem1Button,8)
     eq(#FAKE.calls,1); eq(FAKE.calls[1].index,8)
     eq(#FAKE.messages,1)
-    eq(FAKE.messages[1],'|cffffa82eKnuMail|r: '..string.format(ns.L['you took gold from a stranger (%s).'],'Otro Desconocido'))
+    eq(FAKE.messages[1],'|cffecd9bdKNU|r|cffffa82eMail|r: '..string.format(ns.L['you took gold from a stranger (%s).'],'Otro Desconocido'))
 end)
 
 test('stranger_gold_native_icon_no_warning_for_safe_mail_or_cod',function()
@@ -119,7 +119,7 @@ end)
 test('stranger_gold_warning_locales',function()
     for _,locale in ipairs({'enUS','esES'}) do
         local old=FAKE.locale; FAKE.locale=locale; local localized={}
-        assert(loadfile('Locales.lua'))('KnuMail',localized); FAKE.locale=old
+        assert(loadfile('Locales/Locales.lua'))('KnuMail',localized); FAKE.locale=old
         local expected=locale=='enUS' and 'you took gold from a stranger (%s).'
             or 'cobraste oro de un desconocido (%s).'
         eq(localized.L['you took gold from a stranger (%s).'],expected)

@@ -74,6 +74,7 @@ ns.On('MAIL_SHOW',function()
         local row=_G['MailItem'..i]
         local box=CreateFrame('CheckButton',nil,row,'UICheckButtonTemplate'); row.KnuMailCheck=box
         box:SetSize(22,22); box:SetPoint('LEFT',row,'RIGHT',-2,-3)
+        ns.KL:StyleCheck(box)
         local number=row:CreateFontString(nil,'OVERLAY','GameFontNormalSmall'); row.KnuMailNumber=number
         number:SetPoint('BOTTOM',box,'TOP',0,-2)
         box:SetScript('OnClick',function(self)
@@ -91,9 +92,11 @@ ns.On('MAIL_SHOW',function()
     end
     local open=CreateFrame('Button',nil,InboxFrame,'UIPanelButtonTemplate')
     open:SetSize(145,22); open:SetPoint('TOPLEFT',InboxFrame,'TOPLEFT',20,-44); open:SetText(ns.L['Open selected'])
+    ns.KL:StyleButton(open)
     open:SetScript('OnClick',function() if not returning then ns.OpenAll.Start({only=selectedVisible()}) end end)
     local back=CreateFrame('Button',nil,InboxFrame,'UIPanelButtonTemplate')
     back:SetSize(145,22); back:SetPoint('LEFT',open,'RIGHT',4,0); back:SetText(ns.L['Return selected'])
+    ns.KL:StyleButton(back)
     back:SetScript('OnClick',ns.Selection.ReturnSelected)
     hooksecurefunc(InboxFrame,'Update',refresh); refresh()
 end)
