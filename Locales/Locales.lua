@@ -11,6 +11,8 @@ ns.L = LibStub('KnuLib-1.0'):NewLocale({
     ['Bags full'] = 'Bolsas llenas', ['Mail failed'] = 'Falló la operación de correo', ['Stopped'] = 'Detenido',
     ['Collected %s; opened %d mail(s).'] = 'Cobraste %s; abriste %d correo(s).',
     ['Skipped %d: %s.'] = 'Se saltearon %d: %s.',
+    ['Not opened: %s.'] = 'No se abrió: %s.',
+    ['This mail cannot be returned.'] = 'Ese correo no se puede devolver.',
     ['Take %s from %s?'] = '¿Cobrar %s de %s?',
     ['you took gold from a stranger (%s).'] = 'cobraste oro de un desconocido (%s).',
 }, {cod='cash on delivery', gm='game master mail', strangerGold='gold from strangers',

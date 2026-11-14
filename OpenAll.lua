@@ -15,6 +15,13 @@ function OpenAll.Stop(reason)
     if not running then return end
     running = false; pending = nil; C_Mail.SetOpeningAll(false)
     if reason then ns.Print(reason) end
+    -- A single-mail open (Shift-click on a row) reports one line, and only when there is news.
+    if only then
+        for _, key in ipairs({'cod', 'gm', 'strangerGold', 'filter', 'empty', 'failed'}) do
+            if summary.skipped[key] then ns.Print(string.format(ns.L['Not opened: %s.'], ns.L[key])) end
+        end
+        return
+    end
     ns.Print(string.format(ns.L['Collected %s; opened %d mail(s).'], GetMoneyString(summary.gold), summary.opened))
     for _, key in ipairs({'cod', 'gm', 'strangerGold', 'filter', 'empty', 'failed'}) do
         if summary.skipped[key] then ns.Print(string.format(ns.L['Skipped %d: %s.'], summary.skipped[key], ns.L[key])) end

@@ -128,3 +128,9 @@ test('openall_waits_for_deferred_money_and_items',function()
     ns.OpenAll.Start(); FAKE.Advance(0.45); eq(#FAKE.calls,1); eq(FAKE.inbox[1].money,5); ok(C_Mail.IsCommandPending())
     FAKE.Advance(5); eq(#FAKE.calls,3); eq(ns.OpenAll.Summary().gold,5); eq(ns.OpenAll.Summary().opened,1); eq(#FAKE.inbox,0)
 end)
+test('single_mail_open_reports_one_line',function()
+    FAKE.inbox={mail('Vacío')}; FAKE.messages={}
+    local id=ns.Inbox.Snapshot()[1].id
+    run({only={[id]=true}})
+    eq(#FAKE.messages,1); ok(FAKE.messages[1]:find('No se abrió: sin contenido.',1,true),FAKE.messages[1])
+end)

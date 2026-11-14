@@ -19,7 +19,9 @@ ns.On('MAIL_SHOW',function()
             local index=((InboxFrame.pageNum or 1)-1)*INBOXITEMS_TO_DISPLAY+position
             local mail=ns.Inbox.Snapshot()[index]
             if not mail then return end
-            if IsControlKeyDown() then ns.Selection.ReturnMail(mail)
+            if IsControlKeyDown() then
+                if not ns.Inbox.CanReturn(mail) then ns.Print(ns.L['This mail cannot be returned.'])
+                else ns.Selection.ReturnMail(mail) end
             elseif IsShiftKeyDown() then ns.OpenAll.Start({only={[mail.id]=true}}) end
         end)
     end
