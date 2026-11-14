@@ -24,9 +24,9 @@ user interface. Open your mail, click once, done. English and Spanish.
   stranger's gold never lands in your bags without you deciding it. Cash on delivery and GM mail are never opened
   automatically.
 - **Checkboxes:** tick the mails you want and open or return just those. Shift-click selects a range, Ctrl-click selects
-  everything from one sender. Your selection never leaks to another page.
-- **Address book:** your alts (full names, with surnames), the last 20 recipients, friends and guild, plus
-  autocomplete in the "To:" field.
+  every mail from that sender on the page. Your selection never leaks to another page.
+- **Address book:** a book icon next to "To:" with your alts (full names, with surnames), the last 20 recipients,
+  friends and guild.
 - **Click shortcuts:** Shift-click a mail to take everything, Ctrl-click to return it, Alt-click an item in your bags
   to attach it.
 - **Clean tooltips:** each attachment listed once, with gold and COD.

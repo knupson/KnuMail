@@ -101,7 +101,7 @@ Elegido **A** (decisión de Claude, no discutida). Motivo: el público premia lo
   - **Recientes:** los últimos 20.
   - **Amigos.**
   - **Hermandad.**
-- Autocompletar mientras se escribe, sobre esas mismas listas.
+- ~~Autocompletar mientras se escribe~~: descartado el 2026-11-13 en la prueba en el juego. Forever ya trae autocompletado en «Para:» (`AutoCompleteEditBoxTemplate`, `MailFrame.xml:593`) y el propio se pisaba con ese; decisión del dueño: sacarlo.
 - Opción «recordar último destinatario», apagada por defecto.
 
 ### 5.4 Atajos de clic
