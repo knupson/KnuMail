@@ -1,8 +1,10 @@
-﻿local MAJOR, MINOR = 'KnuLib-1.0', 1
+﻿local MAJOR, MINOR = 'KnuLib-1.0', 2
 local lib = LibStub:NewLibrary(MAJOR, MINOR); if not lib then return end
 
-function lib:NewLocale(es)
+-- en (opcional): textos en inglés para claves que no son texto (p. ej. cod = 'cash on delivery').
+function lib:NewLocale(es, en)
     local L = setmetatable({}, { __index = function(t, k) return k end })
+    for key, value in pairs(en or {}) do L[key] = value end
     local locale = GetLocale and GetLocale() or 'enUS'
     if locale == 'esES' or locale == 'esMX' then
         for key, value in pairs(es or {}) do L[key] = value end
