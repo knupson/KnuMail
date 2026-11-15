@@ -1,4 +1,4 @@
-﻿local MAJOR, MINOR = 'KnuLib-1.0', 2
+﻿local MAJOR, MINOR = 'KnuLib-1.0', 3
 local lib = LibStub:NewLibrary(MAJOR, MINOR); if not lib then return end
 
 -- en (opcional): textos en inglés para claves que no son texto (p. ej. cod = 'cash on delivery').
@@ -328,6 +328,110 @@ function lib:NewPrinter(name)
         DEFAULT_CHAT_FRAME:AddMessage(prefix .. table.concat(args, ' '))
     end
 end
+
+-- Estado compartido entre copias embebidas y upgrades de LibStub.
+lib.commands = lib.commands or {}
+lib.commandAliases = lib.commandAliases or {}
+lib.defaultCommand = lib.defaultCommand or nil
+lib.legacySlash = lib.legacySlash or nil
+
+function lib:RegisterCommand(name, handler, help, aliases)
+    assert(type(name) == 'string' and strtrim(name) ~= '', 'Se esperaba un nombre no vacío')
+    assert(type(handler) == 'function', 'Se esperaba una función')
+    assert(aliases == nil or type(aliases) == 'table', 'Se esperaba una tabla de alias')
+    local normalized = {}
+    for _, alias in ipairs(aliases or {}) do
+        assert(type(alias) == 'string', 'Se esperaba un alias de texto')
+        normalized[#normalized + 1] = string.lower(strtrim(alias))
+    end
+    name = string.lower(strtrim(name))
+    local previous = self.commands[name]
+    for _, alias in ipairs(previous and previous.aliases or {}) do
+        if self.commandAliases[alias] == name then self.commandAliases[alias] = nil end
+    end
+    self.commandAliases[name] = nil -- Los nombres siempre ganan frente a los alias.
+    local command = { name = name, handler = handler, help = help, aliases = {} }
+    self.commands[name] = command
+    for _, alias in ipairs(normalized) do
+        if alias ~= '' and not self.commands[alias] then
+            self.commandAliases[alias] = name
+            command.aliases[#command.aliases + 1] = alias
+        end
+    end
+end
+
+function lib:SetDefaultCommand(handler)
+    assert(handler == nil or type(handler) == 'function', 'Se esperaba una función o nil')
+    self.defaultCommand = handler
+end
+
+function lib:PrintCommands()
+    local Print, names = self:NewPrinter(''), {}
+    for name in pairs(self.commands) do names[#names + 1] = name end
+    table.sort(names)
+    if #names == 0 then Print('No hay comandos registrados.') return end
+    for _, name in ipairs(names) do
+        local command, aliases = self.commands[name], {}
+        for _, alias in ipairs(command.aliases) do
+            if self.commandAliases[alias] == name then aliases[#aliases + 1] = alias end
+        end
+        local suffix = #aliases > 0 and (' (alias: ' .. table.concat(aliases, ', ') .. ')') or ''
+        Print('/knu ' .. name .. suffix .. (command.help and (' - ' .. command.help) or ''))
+    end
+end
+
+function lib:Dispatch(msg, editBox)
+    msg = strtrim(msg or '')
+    local name, rest = msg:match('^(%S+)%s*(.*)$')
+    name = string.lower(name or '')
+    local command = self.commands[name] or self.commands[self.commandAliases[name]]
+    if command then return command.handler(strtrim(rest or ''), editBox) end
+    if name == 'help' or name == 'ayuda' then return self:PrintCommands() end
+    if self.defaultCommand then return self.defaultCommand(msg, editBox) end
+    if self.legacySlash then return self.legacySlash(msg, editBox) end
+    return self:PrintCommands()
+end
+
+lib.slashHandler = lib.slashHandler or function(msg, editBox) return lib:Dispatch(msg, editBox) end
+
+function lib:ClaimSlash()
+    if hash_SlashCmdList then
+        local cur = hash_SlashCmdList['/KNU']
+        if cur and cur ~= self.slashHandler then self.legacySlash = cur end
+        hash_SlashCmdList['/KNU'] = self.slashHandler
+    end
+    if not self.legacySlash and type(SlashCmdList.KNUUI) == 'function' then
+        local i = 1
+        while _G['SLASH_KNUUI' .. i] do
+            if string.lower(_G['SLASH_KNUUI' .. i]) == '/knu' then
+                self.legacySlash = SlashCmdList.KNUUI
+                break
+            end
+            i = i + 1
+        end
+    end
+end
+
+if not lib.slashRegistered then
+    SLASH_KNULIB1 = '/knu'
+    SlashCmdList.KNULIB = lib.slashHandler
+    lib.slashRegistered = true
+end
+-- Después de cada importación de Blizzard, /knu vuelve a KnuLib. Se reintenta en PLAYER_LOGIN
+-- por si ChatFrameUtil todavía no existía cuando cargó la librería.
+function lib:HookSlashImport()
+    if not self.slashHooked and ChatFrameUtil and ChatFrameUtil.ImportAllListsToHash then
+        hooksecurefunc(ChatFrameUtil, 'ImportAllListsToHash', function() lib:ClaimSlash() end)
+        self.slashHooked = true
+    end
+end
+lib:HookSlashImport()
+if not lib.commandFrame then
+    lib.commandFrame = CreateFrame('Frame')
+    lib.commandFrame:RegisterEvent('PLAYER_LOGIN')
+    lib.commandFrame:SetScript('OnEvent', function() lib:HookSlashImport(); lib:ClaimSlash() end)
+end
+lib:ClaimSlash()
 
 local backdrop = { bgFile = 'Interface\\Buttons\\WHITE8X8',
     edgeFile = 'Interface\\Buttons\\WHITE8X8', edgeSize = 1 }

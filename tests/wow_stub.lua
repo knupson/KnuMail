@@ -207,6 +207,8 @@ function EventRegistry:RegisterCallback(event,fn,owner) self.callbacks[event]={f
 function EventRegistry:TriggerEvent(event,...)
     local callback=self.callbacks[event]; if callback then callback.fn(callback.owner,...) end
 end
+function strtrim(text) return (text:gsub('^%s+', ''):gsub('%s+$', '')) end
+SlashCmdList = setmetatable({}, {__index = {}}); hash_SlashCmdList = {}
 DEFAULT_CHAT_FRAME = {AddMessage = function(_, message) FAKE.messages[#FAKE.messages + 1] = message end}
 MenuUtil = {CreateContextMenu = function(owner, generator)
     local root = {}; function root:CreateTitle() end
