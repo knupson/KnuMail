@@ -10,6 +10,7 @@ ns.L = LibStub('KnuLib-1.0'):NewLocale({
     ['strangerGold'] = 'desconocidos con oro', ['filter'] = 'filtro', ['empty'] = 'sin contenido', ['failed'] = 'adjuntos fallidos',
     ['Bags full'] = 'Bolsas llenas', ['Mail failed'] = 'Falló la operación de correo', ['Stopped'] = 'Detenido',
     ['Collected %s; opened %d mail(s).'] = 'Cobraste %s; abriste %d correo(s).',
+    ['Opened %d mail(s).'] = 'Abriste %d correo(s).',
     ['Skipped %d: %s.'] = 'Se saltearon %d: %s.',
     ['Not opened: %s.'] = 'No se abrió: %s.',
     ['Alt-click a bag item with Send Mail open: attach it.'] = 'Alt-clic en un objeto de las bolsas con «Enviar mensaje» abierto: lo adjunta.',

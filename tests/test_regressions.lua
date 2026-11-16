@@ -215,3 +215,29 @@ test('row_menu_mark_voided_after_close',function()
     MailItem1:GetScript('OnMouseUp')(MailItem1,'RightButton'); local mark=FAKE.menu.buttons[3].callback
     FAKE.Fire('PLAYER_INTERACTION_MANAGER_FRAME_HIDE',17); mark(); eq(ns.Selection.Count(),0)
 end)
+local function deleteLater()
+    local take,previous=TakeInboxMoney
+    TakeInboxMoney=function(i)
+        local current=FAKE.inbox[i]; take(i)
+        if previous then for j,m in ipairs(FAKE.inbox) do if m==previous then table.remove(FAKE.inbox,j); break end end end
+        previous=current
+    end
+    return function() TakeInboxMoney=take end
+end
+test('sales_deleted_one_step_late_are_not_reported_empty',function()
+    for i,v in ipairs({600,700,632}) do FAKE.inbox[i]={sender='Subastas',subject='Venta '..i,invoiceType='seller',money=v,keep=true} end
+    local restore=deleteLater()
+    local success,err=pcall(function() ns.OpenAll.Start(); FAKE.Advance(10) end); restore(); assert(success,err)
+    eq(ns.OpenAll.Summary().gold,1932); eq(ns.OpenAll.Summary().opened,3); eq(ns.OpenAll.Summary().skipped.empty,nil)
+    eq(#FAKE.messages,1); ok(FAKE.messages[1]:find('Cobraste 1932; abriste 3 correo(s).',1,true))
+end)
+test('emptied_twin_of_an_empty_mail_keeps_the_real_empty_skip',function()
+    FAKE.inbox={{sender='Subastas',subject='Igual',invoiceType='seller',money=500},{sender='Subastas',subject='Igual',invoiceType='seller',money=0,keep=true}}
+    ns.OpenAll.Start(); FAKE.Advance(10)
+    eq(ns.OpenAll.Summary().opened,1); eq(ns.OpenAll.Summary().skipped.empty,1)
+end)
+test('open_without_gold_says_only_opened',function()
+    FAKE.inbox={mail('A',0,{{link='item:1',count=1}}),mail('B',0,{{link='item:2',count=1}})}; ns.OpenAll.Start(); FAKE.Advance(10)
+    eq(ns.OpenAll.Summary().opened,2); eq(#FAKE.messages,1); eq(FAKE.messages[1]:find('Cobraste'),nil)
+    ok(FAKE.messages[1]:find('Abriste 2 correo(s).',1,true))
+end)

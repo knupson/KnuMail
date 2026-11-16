@@ -24,7 +24,9 @@ function OpenAll.Stop(reason)
         end
         return
     end
-    ns.Print(string.format(ns.L['Collected %s; opened %d mail(s).'], GetMoneyString(summary.gold), summary.opened))
+    if summary.gold > 0 then
+        ns.Print(string.format(ns.L['Collected %s; opened %d mail(s).'], GetMoneyString(summary.gold), summary.opened))
+    else ns.Print(string.format(ns.L['Opened %d mail(s).'], summary.opened)) end
     for _, key in ipairs({'cod', 'gm', 'strangerGold', 'filter', 'empty', 'failed'}) do
         if summary.skipped[key] then ns.Print(string.format(ns.L['Skipped %d: %s.'], summary.skipped[key], ns.L[key])) end
     end
@@ -96,7 +98,14 @@ local function refresh(fresh)
         else
             local m = p.record.mail
             if p.money then m.money = 0 else m.itemCount = math.max(0, m.itemCount - 1) end
-            if m.money == 0 and m.itemCount == 0 and #fresh < #records then p.record.removed = true end
+            -- Gone only if fewer mails with its new signature remain than records expect: another,
+            -- earlier emptied mail can be the one that vanished (in-game 2026-11-16, Codex repro).
+            if m.money == 0 and m.itemCount == 0 then
+                local expected, present, key = 0, 0, signature(m)
+                for _, r in ipairs(records) do if not r.removed and signature(r.mail) == key then expected = expected + 1 end end
+                for _, f in ipairs(fresh) do if signature(f) == key then present = present + 1 end end
+                if present < expected then p.record.removed = true end
+            end
             if not p.record.opened then p.record.opened = true; summary.opened = summary.opened + 1 end
             if ns.Selection then ns.Selection.Remove(p.record.id) end
             summary.gold = summary.gold + (p.money or 0)
