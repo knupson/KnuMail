@@ -17,7 +17,16 @@ function ns.On(event, fn)
     if not handlers[event] then handlers[event] = {}; frame:RegisterEvent(event) end
     handlers[event][#handlers[event] + 1] = fn
 end
+-- Forever closes the mailbox through the player interaction manager and never fires MAIL_CLOSED
+-- (in-game test 2026-11-16: only PLAYER_INTERACTION_MANAGER_FRAME_HIDE 17, then 0), so that hide
+-- runs the MAIL_CLOSED handlers. MAIL_CLOSED stays registered for clients that do fire it.
+frame:RegisterEvent('PLAYER_INTERACTION_MANAGER_FRAME_HIDE')
 frame:SetScript('OnEvent', function(_, event, ...)
+    if event == 'PLAYER_INTERACTION_MANAGER_FRAME_HIDE' then
+        local mailType = Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.MailInfo
+        if mailType == nil or (...) ~= mailType then return end
+        event = 'MAIL_CLOSED'
+    end
     for _, fn in ipairs(handlers[event] or {}) do fn(...) end
 end)
 ns.Print = KL:NewPrinter('Mail')

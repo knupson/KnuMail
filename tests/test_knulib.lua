@@ -12,14 +12,14 @@ test('knulib_styles_mail_controls', function()
     for _, frame in ipairs(FAKE.frames) do
         local text = frame:GetText()
         if frame:GetParent() == InboxFrame and
-            (text == ns.L['Open all'] or text == '>' or
+            (text == ns.L['Open all'] or text == ns.L['Options'] or
              text == ns.L['Open selected'] or text == ns.L['Return selected']) then
             ok(ns.KL.frames[frame] and ns.KL.frames[frame].StyleButton, text)
             ok(frame.backdrop, text)
             found[text] = (found[text] or 0) + 1
         end
     end
-    for _, text in ipairs({ns.L['Open all'], '>', ns.L['Open selected'], ns.L['Return selected']}) do
+    for _, text in ipairs({ns.L['Open all'], ns.L['Options'], ns.L['Open selected'], ns.L['Return selected']}) do
         eq(found[text], 1, text)
     end
     for i = 1, INBOXITEMS_TO_DISPLAY do

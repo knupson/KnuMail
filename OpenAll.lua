@@ -16,7 +16,9 @@ function OpenAll.Stop(reason)
     running = false; pending = nil; C_Mail.SetOpeningAll(false)
     if reason then ns.Print(reason) end
     -- A single-mail open (Shift-click on a row) reports one line, and only when there is news.
-    if only then
+    local count = 0
+    for _ in pairs(only or {}) do count = count + 1 end
+    if count == 1 then
         for _, key in ipairs({'cod', 'gm', 'strangerGold', 'filter', 'empty', 'failed'}) do
             if summary.skipped[key] then ns.Print(string.format(ns.L['Not opened: %s.'], ns.L[key])) end
         end
@@ -87,6 +89,9 @@ local function refresh(fresh)
         for _, r in ipairs(records) do if signature(r.mail) == p.before then oldCount = oldCount + 1 end end
         for _, m in ipairs(fresh) do if signature(m) == p.before then newCount = newCount + 1 end end
         if changed and oldCount == newCount then
+            -- The command can finish before the inbox data refreshes (in-game 2026-11-16: opened
+            -- mail was reported as failed). Wait for the change; MAIL_FAILED still reports real failures.
+            if GetTime() < p.deadline then return false end
             failPending()
         else
             local m = p.record.mail
@@ -117,7 +122,7 @@ tick = function()
     if confirmation then return end
     if C_Mail.IsCommandPending() then schedule(); return end
     local fresh = ns.Inbox.Snapshot()
-    if not refresh(fresh) then return end
+    if not refresh(fresh) then schedule(); return end
     for _, record in ipairs(records) do
         local mail = record.mail
         if not record.done then
@@ -148,7 +153,7 @@ tick = function()
                         if not slot then record.done=true end
                     end
                     if not record.done then
-                        pending = {record = record, slot = slot, before = signature(mail), money = mail.money > 0 and mail.money or nil, goldOnly = action == 'gold'}
+                        pending = {record = record, slot = slot, before = signature(mail), deadline = GetTime() + 3, money = mail.money > 0 and mail.money or nil, goldOnly = action == 'gold'}
                         if mail.money > 0 then TakeInboxMoney(mail.index) else TakeInboxItem(mail.index, slot) end
                         schedule(); return
                     end
@@ -191,11 +196,11 @@ ns.On('MAIL_SHOW', function()
     initialized = true
     InboxFrame.OpenAllMail:Hide()
     local button = CreateFrame('Button', nil, InboxFrame, 'UIPanelButtonTemplate')
-    button:SetSize(115, 22); button:SetPoint('BOTTOM', InboxFrame, 'BOTTOM', -13, 15); button:SetText(ns.L['Open all'])
+    button:SetSize(115, 22); button:SetPoint('BOTTOM', InboxFrame, 'BOTTOM', -38, 15); button:SetText(ns.L['Open all'])
     ns.KL:StyleButton(button)
-    button:SetScript('OnClick', function() OpenAll.Start(IsAltKeyDown() and {goldOnly = true} or nil) end)
+    button:SetScript('OnClick', function() OpenAll.Start() end)
     local arrow = CreateFrame('Button', nil, InboxFrame, 'UIPanelButtonTemplate')
-    arrow:SetSize(24, 22); arrow:SetPoint('LEFT', button, 'RIGHT', 2, 0); arrow:SetText('>')
+    arrow:SetSize(76, 22); arrow:SetPoint('LEFT', button, 'RIGHT', 2, 0); arrow:SetText(ns.L['Options'])
     ns.KL:StyleButton(arrow)
     arrow:SetScript('OnClick', function(self)
         MenuUtil.CreateContextMenu(self, function(_, root)

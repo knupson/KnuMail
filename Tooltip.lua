@@ -33,6 +33,7 @@ ns.On('MAIL_SHOW',function()
             for _,line in ipairs(lines) do GameTooltip:AddLine(line.link..' x'..line.count) end
             if lines.money>0 then GameTooltip:AddLine(ns.L['Gold']..': '..GetMoneyString(lines.money)) end
             if lines.cod>0 then GameTooltip:AddLine(ns.L['COD']..': '..GetMoneyString(lines.cod)) end
+            GameTooltip:AddLine(ns.L['Right-click: actions'],0.6,0.6,0.6)
             GameTooltip:Show()
         end)
         row:HookScript('OnLeave',function() GameTooltip:Hide() end)

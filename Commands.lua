@@ -1,9 +1,9 @@
 local _, ns = ...
 -- /knu mail (alias /knu correo): KnuLib-1.0 minor 3 shares /knu between Knu addons.
-local help = {'Shift-click a row: open that mail.', 'Ctrl-click a row: return that mail.',
-    'Alt-click a bag item with Send Mail open: attach it.',
+local help = {'Right-click a row: take its contents, return it or mark that sender.',
     'Row checkbox: click marks it; Shift-click marks a range; Ctrl-click marks that sender.',
-    'Open all settings: the > button next to Open all.'}
+    'Alt-click a bag item with Send Mail open: attach it.',
+    'Open all settings: the Options button next to Open all.'}
 function ns.PrintHelp()
     for _, line in ipairs(help) do ns.Print(ns.L[line]) end
 end

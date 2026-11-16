@@ -13,6 +13,7 @@ function methods:RegisterEvent(event) self.events[event] = true end
 function methods:Show() self.shown = true; if self.scripts.OnShow then self.scripts.OnShow(self) end end
 function methods:Hide() self.shown = false end
 function methods:IsShown() return self.shown end
+function methods:IsMouseOver() return self.mouseOver == true end
 function methods:SetShown(value) if value then self:Show() else self:Hide() end end
 function methods:SetText(text) self.text = text; if self.scripts.OnTextChanged then self.scripts.OnTextChanged(self, false) end end
 function methods:GetText() return self.text or '' end
@@ -72,6 +73,7 @@ function hooksecurefunc(target, key, hook)
     local previous = target[key]
     target[key] = function(...) if previous then previous(...) end; hook(...) end
 end
+Enum = Enum or {}; Enum.PlayerInteractionType = {MailInfo = 17}
 function FAKE.Fire(event, ...)
     for _, frame in ipairs(FAKE.frames) do
         if frame.events[event] and frame.scripts.OnEvent then frame.scripts.OnEvent(frame, event, ...) end
@@ -136,12 +138,16 @@ local function take(kind, i, slot)
         if kind == 'item' and (m.items[slot].fail or FAKE.failedIDs[m.items[slot].id]) then
             FAKE.Fire('MAIL_FAILED', m.items[slot].id); return
         end
-        if kind == 'money' then m.money = 0 else m.items[slot] = nil; m.itemCount = math.max(0, (m.itemCount or 1) - 1); FAKE.freeSlots = FAKE.freeSlots - 1 end
-        if not m.keep and (m.money or 0) == 0 and (m.itemCount or 0) == 0 then
-            table.remove(FAKE.inbox, i)
-            if FAKE.total then FAKE.total=FAKE.total-1 end
+        -- FAKE.lag: the command is no longer pending but the inbox data arrives later.
+        local function apply()
+            if kind == 'money' then m.money = 0 else m.items[slot] = nil; m.itemCount = math.max(0, (m.itemCount or 1) - 1); FAKE.freeSlots = FAKE.freeSlots - 1 end
+            if not m.keep and (m.money or 0) == 0 and (m.itemCount or 0) == 0 then
+                for n, mail in ipairs(FAKE.inbox) do if mail == m then table.remove(FAKE.inbox, n); break end end
+                if FAKE.total then FAKE.total=FAKE.total-1 end
+            end
+            FAKE.Fire('MAIL_SUCCESS'); FAKE.Fire('MAIL_INBOX_UPDATE')
         end
-        FAKE.Fire('MAIL_SUCCESS'); FAKE.Fire('MAIL_INBOX_UPDATE')
+        if FAKE.lag then C_Timer.NewTimer(FAKE.lag, apply) else apply() end
     end
     if FAKE.deferTicks > 0 then
         FAKE.pending = true
@@ -210,9 +216,16 @@ end
 function strtrim(text) return (text:gsub('^%s+', ''):gsub('%s+$', '')) end
 SlashCmdList = setmetatable({}, {__index = {}}); hash_SlashCmdList = {}
 DEFAULT_CHAT_FRAME = {AddMessage = function(_, message) FAKE.messages[#FAKE.messages + 1] = message end}
+-- FAKE.menu keeps the last context menu: {title=..., buttons={{label, callback, enabled}}}.
 MenuUtil = {CreateContextMenu = function(owner, generator)
-    local root = {}; function root:CreateTitle() end
-    function root:CreateButton(label, callback) return self end
+    local menu = {buttons = {}}; FAKE.menu = menu
+    local root = {}; function root:CreateTitle(text) menu.title = text end
+    function root:CreateButton(label, callback)
+        local entry = {label = label, callback = callback, enabled = true}
+        menu.buttons[#menu.buttons + 1] = entry
+        return {SetEnabled = function(_, value) entry.enabled = value end,
+            CreateButton = function() return {SetEnabled = function() end} end}
+    end
     root.CreateCheckbox = root.CreateButton; root.CreateRadio = root.CreateButton
     generator(owner, root)
 end}
@@ -231,7 +244,7 @@ function FAKE.Reset()
     FAKE.timers = {}; FAKE.calls = {}; FAKE.returns = {}; FAKE.messages = {}; FAKE.sendItems = {}
     FAKE.popups = {}; FAKE.popupShows = 0
     FAKE.pending = false; FAKE.canCheck = true; FAKE.checks = 0; FAKE.total = nil; FAKE.onCheck = nil
-    FAKE.checkSeconds = 0; FAKE.deferTicks = 0; FAKE.failedIDs = {}; FAKE.specialFree = 0
+    FAKE.checkSeconds = 0; FAKE.deferTicks = 0; FAKE.lag = nil; FAKE.failedIDs = {}; FAKE.specialFree = 0
     FAKE.inventoryError = nil; FAKE.alt = false; FAKE.ctrl = false; FAKE.shift = false; FAKE.pickup = nil; FAKE.cursor = nil; FAKE.attached = nil
     InboxFrame.pageNum = 1; SendMailFrame:Hide(); SendMailNameEditBox:SetText('')
     KnuMailDB = nil; FAKE.Fire('ADDON_LOADED', 'KnuMail')

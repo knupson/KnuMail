@@ -25,6 +25,9 @@ local function selectedVisible()
     for _,mail in ipairs(visibleMails()) do if ns.Selection.IsSelected(mail.id) then ids[mail.id]=true end end
     return ids
 end
+function ns.Selection.MarkSender(sender)
+    ns.Selection.BySender(sender,visibleMails()); InboxFrame:Update()
+end
 function ns.Selection.ReturnMail(mail)
     if ns.OpenAll.IsRunning() or returning or C_Mail.IsCommandPending() or not ns.Inbox.CanReturn(mail) then return false end
     ReturnInboxItem(mail.index); return true
@@ -62,7 +65,6 @@ local function refresh()
         row.KnuMailCheck.mail=mail
         row.KnuMailCheck:SetShown(mail~=nil)
         row.KnuMailCheck:SetChecked(mail and ns.Selection.IsSelected(mail.id) or false)
-        row.KnuMailNumber:SetText(mail and tostring(mail.index) or '')
     end
 end
 ns.On('MAIL_CLOSED',function() anchor=nil; cancelReturns(); refresh(); pageNum=nil end)
@@ -73,10 +75,19 @@ ns.On('MAIL_SHOW',function()
     for i=1,INBOXITEMS_TO_DISPLAY do
         local row=_G['MailItem'..i]
         local box=CreateFrame('CheckButton',nil,row,'UICheckButtonTemplate'); row.KnuMailCheck=box
-        box:SetSize(22,22); box:SetPoint('LEFT',row,'RIGHT',-2,-3)
+        -- Inside the row, under the expiry time: anchored outside it ran over the frame border (in-game test 2026-11-14).
+        box:SetSize(22,22); box:SetPoint('BOTTOMRIGHT',row,'BOTTOMRIGHT',-2,2)
+        local subject=_G['MailItem'..i..'Subject']
+        if subject then subject:SetWidth(230) end
         ns.KL:StyleCheck(box)
-        local number=row:CreateFontString(nil,'OVERLAY','GameFontNormalSmall'); row.KnuMailNumber=number
-        number:SetPoint('BOTTOM',box,'TOP',0,-2)
+        -- The checkbox explains its own modifiers: nothing here may need a manual.
+        box:HookScript('OnEnter',function(self)
+            GameTooltip:SetOwner(self,'ANCHOR_RIGHT'); GameTooltip:SetText(ns.L['Mark this mail'])
+            GameTooltip:AddLine(ns.L['Shift-click: mark a range.'],1,1,1)
+            GameTooltip:AddLine(ns.L['Ctrl-click: mark all mail from this sender.'],1,1,1)
+            GameTooltip:Show()
+        end)
+        box:HookScript('OnLeave',function() GameTooltip:Hide() end)
         box:SetScript('OnClick',function(self)
             refresh()
             if not self.mail then return end
