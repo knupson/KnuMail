@@ -22,6 +22,7 @@ Summary (max one line):
 - Right-click a row to take its contents, return it to the sender, or mark all mail from that sender. When a mail can't be returned, the option is greyed out and says why (system mail, GM mail, already returned).
 - Address book: a book icon next to "To:" lists your alts with full names, your last 20 recipients, friends and guild, and can remember the last recipient.
 - With Send Mail open, Alt-click an item in your bags to attach it.
+- Attaching an item fills in the subject with its name. Since game version 1.60.1.70959 the game only does this when cash on delivery is enabled, and mail can't be sent without a subject. A subject you typed or cleared is left alone.
 - Row tooltips list each attachment once, with gold and COD.
 - `/knu mail` prints a short help in chat.
 
@@ -46,6 +47,7 @@ This is the first beta. It was tested in game with auction mail. Two things have
 - Casillas en cada fila para abrir o devolver sólo lo marcado.
 - Clic derecho en una fila: tomar el contenido, devolverlo o marcar los de ese remitente.
 - Libreta de destinatarios con tus alters, los últimos 20 destinatarios, amigos y hermandad.
+- Al adjuntar un objeto, el asunto se completa con su nombre: desde la versión 1.60.1.70959 el juego ya no lo hace solo y sin asunto no se puede enviar.
 
 Es la primera beta. Falta probar en el juego el oro de un desconocido y abrir correos con las bolsas llenas. Código propio, licencia MIT.
 

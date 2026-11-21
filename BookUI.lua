@@ -19,6 +19,8 @@ ns.On('MAIL_SHOW',function()
             local lists=ns.Book.Lists()
             for _,entry in ipairs({{'alts','Alts'},{'recent','Recent'},{'friends','Friends'},{'guild','Guild'}}) do
                 local submenu=root:CreateButton(ns.L[entry[2]])
+                -- A big guild ran past the screen edge; Blizzard's own long menus scroll 18 rows of 20 px.
+                if #lists[entry[1]]>18 then submenu:SetScrollMode(20*18) end
                 for _,name in ipairs(lists[entry[1]]) do
                     local destination=name
                     submenu:CreateButton(destination,function() edit:SetText(destination); edit:SetCursorPosition(#destination) end)

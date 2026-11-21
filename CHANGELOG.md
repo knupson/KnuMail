@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1-beta
+
+- Al adjuntar un objeto, el asunto se completa con su nombre (y la cantidad si es una pila). Desde la versión 1.60.1.70959 el juego sólo lo hace con el contra reembolso activo, y sin asunto el correo no se puede enviar. Si escribiste o borraste el asunto, KnuMail no lo toca.
+- Las listas largas de la libreta (por ejemplo, una hermandad grande) tienen barra de desplazamiento en vez de salirse de la pantalla.
+
 ## 0.1.0-beta
 
 - Abrir todo con filtros por tipo de correo (ventas, compras, vencidas, canceladas, pujas superadas, otros), «sólo oro» y espacios libres reservados, todo desde el botón Opciones. Al terminar deja una línea en el chat.

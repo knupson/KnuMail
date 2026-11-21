@@ -19,3 +19,14 @@ test('book_send_success_after_native_reset',function()
     FAKE.Fire('MAIL_SHOW'); SendMailNameEditBox:SetText('Destino Apellido'); SendMailNameEditBox:SetText(''); FAKE.Fire('MAIL_SEND_SUCCESS')
     eq(ns.db.recent[1],'Destino Apellido')
 end)
+test('book_long_lists_scroll_short_ones_do_not',function()
+    for i=1,40 do FAKE.guild[i]='Miembro'..i..' Apellido' end
+    FAKE.friends={}; FAKE.Fire('MAIL_SHOW'); SendMailFrame:Show()
+    local button
+    for _,frame in ipairs(FAKE.frames) do if frame.parent==SendMailFrame and frame.scripts.OnClick then button=frame end end
+    button.scripts.OnClick(button)
+    local byLabel={}
+    for _,entry in ipairs(FAKE.menu.buttons) do byLabel[entry.label]=entry end
+    eq(byLabel[ns.L['Guild']].scroll,360); eq(#byLabel[ns.L['Guild']].children,40)
+    eq(byLabel[ns.L['Friends']].scroll,nil)
+end)

@@ -6,7 +6,7 @@
 ## IconTexture: Interface\AddOns\KnuMail\media\icono
 ## Author: Alejandro Benzoni (KnuPwns)
 ## SavedVariables: KnuMailDB
-## Version: 0.1.0
+## Version: 0.1.1
 ## X-License: MIT
 ## X-Curse-Project-ID: 1805154
 ## X-Website: https://knunet.com
@@ -25,5 +25,6 @@ OpenAll.lua
 SelectUI.lua
 BookUI.lua
 Express.lua
+Subject.lua
 Tooltip.lua
 Commands.lua
