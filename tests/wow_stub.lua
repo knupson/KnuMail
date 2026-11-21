@@ -10,6 +10,7 @@ function methods:HookScript(event, fn)
     self.scripts[event] = function(...) if previous then previous(...) end; fn(...) end
 end
 function methods:RegisterEvent(event) self.events[event] = true end
+function methods:UnregisterEvent(event) self.events[event] = nil end
 function methods:Show() self.shown = true; if self.scripts.OnShow then self.scripts.OnShow(self) end end
 function methods:Hide() self.shown = false end
 function methods:IsShown() return self.shown end
@@ -60,7 +61,7 @@ UIParent = CreateFrame('Frame')
 InboxFrame = CreateFrame('Frame'); InboxFrame.pageNum = 1
 InboxFrame.OpenAllMail = CreateFrame('Button', nil, InboxFrame)
 function InboxFrame:Update() end
-SendMailFrame = CreateFrame('Frame'); SendMailNameEditBox = CreateFrame('EditBox')
+SendMailFrame = CreateFrame('Frame'); SendMailNameEditBox = CreateFrame('EditBox'); SendMailSubjectEditBox = CreateFrame('EditBox')
 GameTooltip = CreateFrame('Tooltip')
 FAKE.attachmentClick=function() end
 for i = 1, 7 do
@@ -181,7 +182,15 @@ C_Container = {CalculateTotalNumberOfFreeBagSlots = function() return FAKE.freeS
     GetContainerNumFreeSlots = function(bag) return bag == 0 and FAKE.freeSlots or FAKE.specialFree, bag == 0 and 0 or 32 end,
     PickupContainerItem = function(bag, slot) FAKE.pickup = {bag, slot} end}
 function ClickSendMailItemButton(slot) FAKE.attached = slot end
-function GetSendMailItem(slot) return FAKE.sendItems[slot] end
+function GetSendMailItem(slot)
+    local item = FAKE.sendItems[slot]
+    if type(item) == 'table' then return item.name, item.id or 1, nil, item.count or 1 end
+    if item then return item, 1, nil, 1 end
+end
+function HasSendMailItem(slot) return FAKE.sendItems[slot] ~= nil end
+-- Forever 1.60.1.70959 with C.O.D. disabled: Blizzard no longer touches the subject here.
+function SendMailFrame_Update() FAKE.sendUpdates = (FAKE.sendUpdates or 0) + 1 end
+function SendMailFrame_Reset() SendMailSubjectEditBox:SetText(''); SendMailFrame_Update() end
 function SetSendMailMoney(value) FAKE.sendMoney = value end
 function CursorHasItem() return FAKE.pickup ~= nil end
 function GetCursorInfo() return FAKE.cursor end
@@ -223,8 +232,11 @@ MenuUtil = {CreateContextMenu = function(owner, generator)
     function root:CreateButton(label, callback)
         local entry = {label = label, callback = callback, enabled = true}
         menu.buttons[#menu.buttons + 1] = entry
+        entry.children = {}
         return {SetEnabled = function(_, value) entry.enabled = value end,
-            CreateButton = function() return {SetEnabled = function() end} end}
+            SetScrollMode = function(_, extent) entry.scroll = extent end,
+            CreateButton = function(_, text, fn) entry.children[#entry.children + 1] = {label = text, callback = fn}
+                return {SetEnabled = function() end} end}
     end
     root.CreateCheckbox = root.CreateButton; root.CreateRadio = root.CreateButton
     generator(owner, root)
@@ -246,7 +258,7 @@ function FAKE.Reset()
     FAKE.pending = false; FAKE.canCheck = true; FAKE.checks = 0; FAKE.total = nil; FAKE.onCheck = nil
     FAKE.checkSeconds = 0; FAKE.deferTicks = 0; FAKE.lag = nil; FAKE.failedIDs = {}; FAKE.specialFree = 0
     FAKE.inventoryError = nil; FAKE.alt = false; FAKE.ctrl = false; FAKE.shift = false; FAKE.pickup = nil; FAKE.cursor = nil; FAKE.attached = nil
-    InboxFrame.pageNum = 1; SendMailFrame:Hide(); SendMailNameEditBox:SetText('')
+    InboxFrame.pageNum = 1; SendMailFrame:Hide(); SendMailNameEditBox:SetText(''); SendMailSubjectEditBox:SetText(''); SendMailFrame.previousItem = nil
     KnuMailDB = nil; FAKE.Fire('ADDON_LOADED', 'KnuMail')
     if ns.Selection then ns.Selection.Clear() end
 end
