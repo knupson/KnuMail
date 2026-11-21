@@ -65,14 +65,17 @@ def hexagono(cx, cy, r, rot=90):
 
 
 def sobre(L, cx, cy):
-    """Máscara de un sobre: contorno grueso más la solapa en V."""
+    """Máscara de un sobre: contorno redondeado más la solapa en V.
+
+    Familia Knu (2026-11-21): mismas reglas que KnuUI y KnuJunk, trazo 5 % del lienzo y caja
+    46 % x 32 %."""
     m = Image.new("L", (L, L), 0)
     d = ImageDraw.Draw(m)
-    w, h = L * 0.44, L * 0.30
     g = L * 0.05  # grosor del trazo
+    w, h = L * 0.46, L * 0.32
     x0, y0, x1, y1 = cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2
-    d.rectangle([x0, y0, x1, y1], fill=255)
-    d.rectangle([x0 + g, y0 + g, x1 - g, y1 - g], fill=0)
+    d.rounded_rectangle([x0, y0, x1, y1], radius=g, fill=255)
+    d.rounded_rectangle([x0 + g, y0 + g, x1 - g, y1 - g], radius=g * 0.3, fill=0)
     # Solapa: dos trazos desde las esquinas superiores hasta el centro.
     d.line([(x0 + g * 0.5, y0 + g * 0.5), (cx, cy + h * 0.12), (x1 - g * 0.5, y0 + g * 0.5)], fill=255, width=int(g), joint="curve")
     return m
