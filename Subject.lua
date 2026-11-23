@@ -1,7 +1,6 @@
 local _, ns = ...
--- Forever 1.60.1.70959 (2026-11-17) only fills the subject from the first attachment when C.O.D. is
--- enabled (SendMailFrame_Update), and mail cannot be sent without a subject. KnuMail fills it the same
--- way. A subject the player typed or cleared is never touched again until the compose form resets.
+-- Since 1.60.1.70959 Forever fills the subject from an attachment only with C.O.D. on, and mail needs a subject.
+-- KnuMail fills it the same way; a subject the player typed or cleared stays until the form resets.
 local auto, manual
 -- First attachment as Blizzard names it: "Name" or "Name (count)". Returns nil, true while its data loads.
 local function title()

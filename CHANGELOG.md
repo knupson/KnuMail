@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2-beta
+
+- El chat dice «1 correo» y «2 correos» según corresponda, en vez de «correo(s)».
+- La descripción del addon en la lista de addons del juego explica mejor qué hace.
+- README actualizado.
+
 ## 0.1.1-beta
 
 - Al adjuntar un objeto, el asunto se completa con su nombre (y la cantidad si es una pila). Desde la versión 1.60.1.70959 el juego sólo lo hace con el contra reembolso activo, y sin asunto el correo no se puede enviar. Si escribiste o borraste el asunto, KnuMail no lo toca.

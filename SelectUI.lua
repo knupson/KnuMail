@@ -75,7 +75,7 @@ ns.On('MAIL_SHOW',function()
     for i=1,INBOXITEMS_TO_DISPLAY do
         local row=_G['MailItem'..i]
         local box=CreateFrame('CheckButton',nil,row,'UICheckButtonTemplate'); row.KnuMailCheck=box
-        -- Inside the row, under the expiry time: anchored outside it ran over the frame border (in-game test 2026-11-14).
+        -- Inside the row, under the expiry time: anchored outside it ran over the frame border.
         box:SetSize(22,22); box:SetPoint('BOTTOMRIGHT',row,'BOTTOMRIGHT',-2,2)
         local subject=_G['MailItem'..i..'Subject']
         if subject then subject:SetWidth(230) end

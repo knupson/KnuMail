@@ -13,15 +13,14 @@ local function returnBlock(mail)
     if InboxItemCanDelete(mail.index) then return ns.L['the game only lets you delete it'] end
 end
 ns.ReturnBlock = returnBlock
--- Right-click menu: every row action is visible here; modifier clicks on the row text were removed
--- because they collided with the checkbox and nobody could discover them (owner decision 2026-11-16).
+-- The right-click menu holds every row action; modifier clicks on the row text clashed with the checkbox.
 -- Actions resolve the mail again by identity when chosen: the inbox can shift while the menu is open.
 local function current(id)
     for _, mail in ipairs(ns.Inbox.Snapshot()) do if mail.id == id then return mail end end
 end
 local function busy() return ns.OpenAll.IsRunning() or ns.Selection.IsReturning() end
--- Any inbox change while the menu is open voids it: identities of identical mails are renumbered
--- per snapshot, so a vanished mail can hand its id to its twin (Codex review 2026-11-16).
+-- Any inbox change while the menu is open voids it: identical mails are renumbered per snapshot,
+-- so a vanished mail can hand its id to its twin.
 local generation = 0
 ns.On('MAIL_INBOX_UPDATE', function() generation = generation + 1 end)
 ns.On('MAIL_CLOSED', function() generation = generation + 1 end)

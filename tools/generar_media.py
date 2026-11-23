@@ -15,7 +15,7 @@ BASE = pathlib.Path(__file__).resolve().parent.parent
 MEDIA = BASE / "media"
 PREVIEW = BASE / "tools" / "preview"
 
-# Paleta knunet.com (igual que KnuUI): amber-hi, amber-dim, amber, bg, text.
+# Paleta de knunet.com, la misma de KnuUI.
 AMBAR_CLARO = (255, 192, 106)
 AMBAR_OSCURO = (176, 116, 40)
 AMBAR = (255, 168, 46)
@@ -52,6 +52,7 @@ def degradado(size, c1, c2, angulo=35):
     return img
 
 
+# Rayas diagonales ámbar: identidad visual de la familia Knu, compartida con KnuCast, KnuJunk y KnuUI.
 def franjas(ancho, alto, paso):
     img = Image.new("RGBA", (ancho, alto), (*FONDO, 255))
     d = ImageDraw.Draw(img)
@@ -101,12 +102,14 @@ def emblema(lado):
     capa.paste(grad, (0, 0), borde)
     capa.paste(Image.new("RGBA", (L, L), (*TEXTO, 255)), (0, 0), sobre(L, cx, cy))
 
+    # Brillo ámbar del hexágono: identidad visual de la familia Knu, compartida con KnuCast, KnuJunk y KnuUI.
     brillo = Image.new("RGBA", (L, L), (0, 0, 0, 0))
     brillo.paste(grad, (0, 0), borde)
     brillo = brillo.filter(ImageFilter.GaussianBlur(L * 0.03))
     return Image.alpha_composite(brillo, capa).resize((lado, lado), Image.LANCZOS)
 
 
+# Lema en mayúsculas espaciadas: identidad visual de la familia Knu, compartida con KnuCast, KnuJunk y KnuUI.
 def logo(ancho=512, alto=256, marca="KNU", acento="MAIL", lema="WOW FOREVER · KNUNET"):
     s = 2
     W, H = ancho * s, alto * s

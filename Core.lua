@@ -7,10 +7,8 @@ local defaults = {settings = {openAll = {ahSold = true, ahWon = true, ahExpired 
 local events = KL:NewEvents()
 ns.Events = events
 function ns.On(event, fn) return events:On(event, fn) end
--- Forever closes the mailbox through the player interaction manager and never fires MAIL_CLOSED
--- (in-game test 2026-11-16: only PLAYER_INTERACTION_MANAGER_FRAME_HIDE 17, then 0), so that hide
--- runs the MAIL_CLOSED handlers. MAIL_CLOSED stays registered for clients that do fire it; it has no
--- arguments, so none are passed on.
+-- Forever never fires MAIL_CLOSED; closing the MailInfo interaction emits it instead, with no arguments.
+-- Clients that do fire MAIL_CLOSED reach the same handlers.
 events:On('PLAYER_INTERACTION_MANAGER_FRAME_HIDE', function(kind)
     local mailType = Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.MailInfo
     if mailType ~= nil and kind == mailType then events:Emit('MAIL_CLOSED') end

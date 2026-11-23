@@ -1,6 +1,5 @@
-# Publica en CurseForge y en GitHub Releases al subir una etiqueta (p. ej. v3.3.1).
-# Requiere el secreto CF_API_KEY y "## X-Curse-Project-ID: <número>" en KnuMail.toc.
-# Sin CF_API_KEY el empaquetador omite CurseForge y sólo arma el release de GitHub.
+# Una etiqueta v* publica en CurseForge y GitHub Releases. CurseForge necesita el secreto CF_API_KEY
+# y "## X-Curse-Project-ID" en KnuMail.toc; sin la clave sólo se arma el release de GitHub.
 name: Release
 
 on:

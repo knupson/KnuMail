@@ -12,7 +12,7 @@ Summary (max one line):
 
 ![KnuMail](banner.png)
 
-**KnuMail** makes the mailbox in **World of Warcraft: Forever** (1.60.1) faster and safer and keeps the default look. Everything it adds is on screen: buttons, checkboxes, tooltips and a right-click menu, so there are no hidden shortcuts to learn. English and Spanish.
+**KnuMail** adds to the mailbox in **World of Warcraft: Forever** (1.60.1) a button that opens all your mail with filters, checkboxes to open or return only what you tick, and an address book, and it leaves gold from strangers in the mailbox. It keeps the default look. Everything it adds is on screen: buttons, checkboxes, tooltips and a right-click menu, so there are no hidden shortcuts to learn. English and Spanish.
 
 ### Features
 
@@ -28,7 +28,7 @@ Summary (max one line):
 
 ### Beta notes
 
-This is the first beta. It was tested in game with auction mail. Two things haven't been checked in game yet: a stranger sending you gold, and opening mail with full bags. If you run into either, please open an issue.
+This is a beta. It was tested in game with auction mail. Two things haven't been checked in game yet: a stranger sending you gold, and opening mail with full bags. If you run into either, please open an issue.
 
 ### Notes
 
@@ -40,7 +40,7 @@ This is the first beta. It was tested in game with auction mail. Two things have
 
 ## Descripción (castellano)
 
-**KnuMail** hace que el buzón de **World of Warcraft: Forever** (1.60.1) sea más rápido y seguro, y conserva el aspecto de siempre. Todo lo que agrega está a la vista: botones, casillas, tooltips y un menú de clic derecho.
+**KnuMail** le agrega al buzón de **World of Warcraft: Forever** (1.60.1) un botón que abre todo el correo con filtros, casillas para abrir o devolver sólo lo marcado y una libreta de destinatarios, y deja en el buzón el oro de desconocidos. Conserva el aspecto de siempre. Todo lo que agrega está a la vista: botones, casillas, tooltips y un menú de clic derecho.
 
 - Abrir todo con filtros: con el botón Opciones elegís qué tipos de correo abrir, si querés sólo el oro y cuántos espacios dejar libres en las bolsas. Al final ves una línea en el chat con lo cobrado.
 - El oro de desconocidos queda en el buzón. Abrir todo lo saltea, y si lo abrís a propósito KnuMail te pregunta antes. Los contra reembolso y los de GM nunca los abre KnuMail.
@@ -49,7 +49,7 @@ This is the first beta. It was tested in game with auction mail. Two things have
 - Libreta de destinatarios con tus alters, los últimos 20 destinatarios, amigos y hermandad.
 - Al adjuntar un objeto, el asunto se completa con su nombre: desde la versión 1.60.1.70959 el juego ya no lo hace solo y sin asunto no se puede enviar.
 
-Es la primera beta. Falta probar en el juego el oro de un desconocido y abrir correos con las bolsas llenas. Código propio, licencia MIT.
+Es una beta. Falta probar en el juego el oro de un desconocido y abrir correos con las bolsas llenas. Código propio, licencia MIT.
 
 ---
 

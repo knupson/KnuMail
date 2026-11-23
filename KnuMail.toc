@@ -1,12 +1,12 @@
 ## Interface: 16001
 ## Title: |cffecd9bdKNU|r|cffffa82eMail|r
-## Notes: Mail tools for WoW Forever.
-## Notes-esES: Herramientas de correo para WoW Forever.
-## Notes-esMX: Herramientas de correo para WoW Forever.
+## Notes: Open all with filters, checkboxes and an address book; gold from strangers stays put.
+## Notes-esES: Abrir todo con filtros, casillas y libreta de destinatarios; el oro de desconocidos queda en el buzón.
+## Notes-esMX: Abrir todo con filtros, casillas y libreta de destinatarios; el oro de desconocidos queda en el buzón.
 ## IconTexture: Interface\AddOns\KnuMail\media\icono
 ## Author: Alejandro Benzoni (KnuPwns)
 ## SavedVariables: KnuMailDB
-## Version: 0.1.1
+## Version: 0.1.2
 ## X-License: MIT
 ## X-Curse-Project-ID: 1805154
 ## X-Website: https://knunet.com

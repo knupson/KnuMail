@@ -4,7 +4,7 @@ ns.On('MAIL_SHOW',function()
     if initialized then return end
     initialized=true
     local edit=SendMailNameEditBox
-    -- Icon button: a text button covered the "Postage" cost label (in-game test 2026-11-13).
+    -- Icon button: a text button covered the "Postage" cost label.
     local button=CreateFrame('Button',nil,SendMailFrame)
     button:SetSize(20,20); button:SetPoint('LEFT',edit,'RIGHT',3,0)
     button:SetNormalTexture('Interface\\Icons\\INV_Misc_Book_09')

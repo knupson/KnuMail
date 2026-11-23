@@ -1,5 +1,4 @@
--- Randomised Open all runs against server timings seen in game: the inbox data can arrive late and
--- an emptied mail can linger before the server deletes it (false "no contents" found 2026-11-16).
+-- Randomised Open all runs with late inbox data and emptied mails that linger before the server deletes them.
 local function lingering()
     local takeMoney, takeItem = TakeInboxMoney, TakeInboxItem
     local function watch(m)

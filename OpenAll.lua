@@ -24,9 +24,10 @@ function OpenAll.Stop(reason)
         end
         return
     end
+    local one = summary.opened == 1
     if summary.gold > 0 then
-        ns.Print(string.format(ns.L['Collected %s; opened %d mail(s).'], GetMoneyString(summary.gold), summary.opened))
-    else ns.Print(string.format(ns.L['Opened %d mail(s).'], summary.opened)) end
+        ns.Print(string.format(ns.L[one and 'Collected %s; opened %d mail.' or 'Collected %s; opened %d mails.'], GetMoneyString(summary.gold), summary.opened))
+    else ns.Print(string.format(ns.L[one and 'Opened %d mail.' or 'Opened %d mails.'], summary.opened)) end
     for _, key in ipairs({'cod', 'gm', 'strangerGold', 'filter', 'empty', 'failed'}) do
         if summary.skipped[key] then ns.Print(string.format(ns.L['Skipped %d: %s.'], summary.skipped[key], ns.L[key])) end
     end
@@ -91,15 +92,15 @@ local function refresh(fresh)
         for _, r in ipairs(records) do if signature(r.mail) == p.before then oldCount = oldCount + 1 end end
         for _, m in ipairs(fresh) do if signature(m) == p.before then newCount = newCount + 1 end end
         if changed and oldCount == newCount then
-            -- The command can finish before the inbox data refreshes (in-game 2026-11-16: opened
-            -- mail was reported as failed). Wait for the change; MAIL_FAILED still reports real failures.
+            -- The command can finish before the inbox data refreshes: wait for the change.
+            -- MAIL_FAILED still reports real failures.
             if GetTime() < p.deadline then return false end
             failPending()
         else
             local m = p.record.mail
             if p.money then m.money = 0 else m.itemCount = math.max(0, m.itemCount - 1) end
-            -- Gone only if fewer mails with its new signature remain than records expect: another,
-            -- earlier emptied mail can be the one that vanished (in-game 2026-11-16, Codex repro).
+            -- Gone only if fewer mails with its new signature remain than records expect:
+            -- another, earlier emptied mail can be the one that vanished.
             if m.money == 0 and m.itemCount == 0 then
                 local expected, present, key = 0, 0, signature(m)
                 for _, r in ipairs(records) do if not r.removed and signature(r.mail) == key then expected = expected + 1 end end
