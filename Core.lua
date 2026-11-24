@@ -3,7 +3,7 @@ local KL = LibStub('KnuLib-1.0')
 ns.KL = KL
 local defaults = {settings = {openAll = {ahSold = true, ahWon = true, ahExpired = true,
     ahCancelled = true, ahOutbid = true, other = true, strangerGold = false, keepFree = 0, goldOnly = false},
-    rememberLast = false}, alts = {}, recent = {}}
+    rememberLast = false}, alts = {}, recent = {}, feedbackShown = false}
 local events = KL:NewEvents()
 ns.Events = events
 function ns.On(event, fn) return events:On(event, fn) end

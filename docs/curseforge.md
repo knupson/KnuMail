@@ -10,7 +10,7 @@ Summary (max one line):
 
 ## Description
 
-![KnuMail](banner.png)
+![KnuMail](https://raw.githubusercontent.com/knupson/KnuMail/master/tools/preview/banner.png)
 
 **KnuMail** adds to the mailbox in **World of Warcraft: Forever** (1.60.1) a button that opens all your mail with filters, checkboxes to open or return only what you tick, and an address book, and it leaves gold from strangers in the mailbox. It keeps the default look. Everything it adds is on screen: buttons, checkboxes, tooltips and a right-click menu, so there are no hidden shortcuts to learn. English and Spanish.
 
@@ -36,6 +36,24 @@ This is a beta. It was tested in game with auction mail. Two things haven't been
 - KnuMail never sends mail by itself. It only fills in fields for you.
 - Source code and issues: https://github.com/knupson/KnuMail (MIT license).
 
+### Other KNU addons
+
+**[KnuCompanion](https://companion.knunet.com)**: your bags, bank, map and quests on your other monitor. Desktop app plus addon ([CurseForge](https://www.curseforge.com/wow/addons/knucompanion)).
+
+- [KnuUI](https://www.curseforge.com/wow/addons/knuui): compact amber layout for ElvUI.
+- [KnuJunk](https://www.curseforge.com/wow/addons/knujunk): marks and sells junk, and repairs on its own.
+- [KnuCast](https://www.curseforge.com/wow/addons/knucast): marks on your action bars which spells work against your target.
+
+All projects: https://www.curseforge.com/members/knupwns/projects
+
+### Feedback
+
+If KnuMail is useful to you, add it to your favorites on CurseForge (the star) and leave a comment. That is how other Forever players find it.
+
+Found a bug? Open an issue at https://github.com/knupson/KnuMail/issues or leave a comment. Include the error text (BugSack copies it for you) and what you were doing.
+
+Send ideas and requests the same way, as a comment or an issue.
+
 ---
 
 ## Descripción (castellano)
@@ -50,6 +68,24 @@ This is a beta. It was tested in game with auction mail. Two things haven't been
 - Al adjuntar un objeto, el asunto se completa con su nombre: desde la versión 1.60.1.70959 el juego ya no lo hace solo y sin asunto no se puede enviar.
 
 Es una beta. Falta probar en el juego el oro de un desconocido y abrir correos con las bolsas llenas. Código propio, licencia MIT.
+
+### Otros addons de KNU
+
+**[KnuCompanion](https://companion.knunet.com)**: tus bolsas, banco, mapa y misiones en tu otro monitor. App de escritorio y addon ([CurseForge](https://www.curseforge.com/wow/addons/knucompanion)).
+
+- [KnuUI](https://www.curseforge.com/wow/addons/knuui): layout compacto ámbar para ElvUI.
+- [KnuJunk](https://www.curseforge.com/wow/addons/knujunk): marca y vende lo que no sirve, y repara solo.
+- [KnuCast](https://www.curseforge.com/wow/addons/knucast): marca en las barras qué hechizos sirven contra el objetivo.
+
+Todos los proyectos: https://www.curseforge.com/members/knupwns/projects
+
+### Opiniones y errores
+
+Si KnuMail te sirve, marcalo como favorito en CurseForge (la estrella) y dejá un comentario: así lo encuentran otros jugadores de Forever.
+
+Si encontrás un error, abrí un issue en https://github.com/knupson/KnuMail/issues o dejá un comentario con el texto del error (BugSack lo copia) y qué estabas haciendo.
+
+Las ideas y los pedidos, igual: en un comentario o en un issue.
 
 ---
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3-beta
+
+- La primera vez que entrás al juego con KnuMail, una línea en el chat te cuenta dónde dejar un favorito o un comentario y dónde reportar errores. No se repite.
+- La ayuda de `/knu mail` termina con esa misma línea y con los otros addons de KNU, empezando por KnuCompanion.
+- KnuLib-1.0 MINOR 8.
+
 ## 0.1.2-beta
 
 - El chat dice «1 correo» y «2 correos» según corresponda, en vez de «correo(s)».

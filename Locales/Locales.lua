@@ -17,6 +17,10 @@ ns.L = LibStub('KnuLib-1.0'):NewLocale({
     ['Not opened: %s.'] = 'No se abrió: %s.',
     ['Alt-click a bag item with Send Mail open: attach it.'] = 'Alt-clic en un objeto de las bolsas con «Enviar mensaje» abierto: lo adjunta.',
     ['Row checkbox: click marks it; Shift-click marks a range; Ctrl-click marks that sender.'] = 'Casilla de la fila: clic la marca; Shift-clic marca un rango; Ctrl-clic marca todo ese remitente.',
+    ['Like KnuMail? A favorite or a comment on curseforge.com/wow/addons/knumail helps other players find it. Bugs and ideas: github.com/knupson/KnuMail/issues'] =
+        '¿Te sirve KnuMail? Un favorito o un comentario en curseforge.com/wow/addons/knumail ayuda a que otros jugadores lo encuentren. Errores e ideas: github.com/knupson/KnuMail/issues',
+    ['Other KNU addons: KnuCompanion puts your bags, bank, map and quests on your other monitor (companion.knunet.com). All: curseforge.com/members/knupwns/projects'] =
+        'Otros addons de KNU: KnuCompanion pone tus bolsas, banco, mapa y misiones en tu otro monitor (companion.knunet.com). Todos: curseforge.com/members/knupwns/projects',
     ['KnuMail clicks and settings'] = 'Clics y opciones de KnuMail',
     ['Right-click a row: take its contents, return it or mark that sender.'] = 'Clic derecho en una fila: tomar el contenido, devolverlo o marcar ese remitente.',
     ['Open all settings: the Options button next to Open all.'] = 'Opciones de «Abrir todo»: el botón «Opciones» al lado.',
